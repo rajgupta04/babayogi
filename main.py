@@ -1,9 +1,10 @@
 import hashlib
 import hmac
+import math
 import os
 import secrets
 from datetime import datetime, timedelta, timezone
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 import jwt
 from bson import ObjectId
@@ -50,6 +51,7 @@ MONGO_DB_NAME = os.getenv("MONGODB_DB_NAME", "ayurvarta")
 MONGO_CLIENT: Optional[MongoClient] = None
 DB = None
 INDEXES_READY = False
+ALLOWED_ASSESSMENT_TYPES = {"prakriti", "vikriti", "agni"}
 
 
 def _get_collections():
@@ -62,14 +64,17 @@ def _get_collections():
     users = DB["users"]
     diet_jobs = DB["diet_jobs"]
     diet_logs = DB["diet_logs"]
+    assessment_results = DB["assessment_results"]
 
     if not INDEXES_READY:
         users.create_index("email", unique=True)
         diet_jobs.create_index([("user_id", DESCENDING), ("created_at", DESCENDING)])
+        diet_jobs.create_index([("status", DESCENDING), ("profile_signature", DESCENDING), ("created_at", DESCENDING)])
         diet_logs.create_index([("user_id", DESCENDING), ("logged_at", DESCENDING)])
+        assessment_results.create_index([("user_id", DESCENDING), ("type", DESCENDING), ("created_at", DESCENDING)])
         INDEXES_READY = True
 
-    return users, diet_jobs, diet_logs
+    return users, diet_jobs, diet_logs, assessment_results
 
 
 JWT_SECRET = os.getenv("JWT_SECRET", "change-me-in-production")
@@ -130,6 +135,10 @@ def _serialize_job(job_doc: dict) -> dict:
         "message": job_doc.get("message", ""),
         "result": job_doc.get("result"),
         "error": job_doc.get("error"),
+        "source": job_doc.get("source", "generated"),
+        "matchedFromJobId": str(job_doc["matched_from_job_id"]) if job_doc.get("matched_from_job_id") else None,
+        "matchScore": job_doc.get("match_score"),
+        "profileSignature": job_doc.get("profile_signature"),
         "createdAt": job_doc.get("created_at"),
         "updatedAt": job_doc.get("updated_at"),
     }
@@ -145,6 +154,113 @@ def _serialize_diet_log(log_doc: dict) -> dict:
         "loggedAt": log_doc.get("logged_at"),
         "createdAt": log_doc.get("created_at"),
     }
+
+
+def _serialize_assessment_result(doc: dict) -> dict:
+    return {
+        "id": str(doc["_id"]),
+        "type": doc.get("type"),
+        "scores": doc.get("scores", {}),
+        "schema": doc.get("schema"),
+        "disease": doc.get("disease"),
+        "capturedAt": doc.get("captured_at"),
+        "createdAt": doc.get("created_at"),
+    }
+
+
+def _ratio_triplet(scores: Dict[str, Any], keys: List[str]) -> List[float]:
+    values = [float(scores.get(key, 0) or 0) for key in keys]
+    total = sum(v for v in values if v > 0)
+    if total <= 0:
+        return [0.0 for _ in keys]
+    return [v / total for v in values]
+
+
+def _agni_vector(agni: str) -> List[float]:
+    value = (agni or "").strip().lower()
+    if value in {"irregular", "vishama"}:
+        return [1.0, 0.0, 0.0]
+    if value in {"strong", "tikshna"}:
+        return [0.0, 1.0, 0.0]
+    return [0.0, 0.0, 1.0]
+
+
+def _dominant_key(scores: Dict[str, Any]) -> str:
+    if not scores:
+        return "unknown"
+    normalized = [(str(k).lower(), float(v or 0)) for k, v in scores.items()]
+    if not any(v > 0 for _, v in normalized):
+        return "unknown"
+    return max(normalized, key=lambda item: item[1])[0]
+
+
+def _build_profile_signature(payload: Dict[str, Any]) -> str:
+    profile = payload.get("profile") or {}
+    health = payload.get("health") or {}
+    diet_preferences = payload.get("dietPreferences") or {}
+    environment = payload.get("environment") or {}
+
+    primary_prakriti = _dominant_key(profile.get("prakriti") or {})
+    primary_vikriti = _dominant_key(profile.get("vikriti") or {})
+    agni = (health.get("agni") or "unknown").strip().lower()
+    diet_type = (diet_preferences.get("dietType") or "unknown").strip().lower()
+    season = (environment.get("season") or "unknown").strip().lower()
+
+    return f"{primary_prakriti}:{primary_vikriti}:{agni}:{diet_type}:{season}"
+
+
+def _build_profile_vector(payload: Dict[str, Any]) -> List[float]:
+    profile = payload.get("profile") or {}
+    health = payload.get("health") or {}
+
+    prakriti_vector = _ratio_triplet(profile.get("prakriti") or {}, ["vata", "pitta", "kapha"])
+    vikriti_vector = _ratio_triplet(profile.get("vikriti") or {}, ["vata", "pitta", "kapha"])
+    agni_vector = _agni_vector(health.get("agni") or "")
+    return [*prakriti_vector, *vikriti_vector, *agni_vector]
+
+
+def _cosine_similarity(a: List[float], b: List[float]) -> float:
+    if not a or not b or len(a) != len(b):
+        return 0.0
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(y * y for y in b))
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
+def _find_matching_completed_job(request_payload: Dict[str, Any], min_similarity: float = 0.97) -> Optional[dict]:
+    _, diet_jobs_collection, _, _ = _get_collections()
+    signature = _build_profile_signature(request_payload)
+    current_vector = _build_profile_vector(request_payload)
+
+    candidates = list(
+        diet_jobs_collection.find(
+            {
+                "status": "completed",
+                "result": {"$ne": None},
+                "profile_signature": signature,
+            }
+        )
+        .sort("created_at", DESCENDING)
+        .limit(50)
+    )
+
+    best_match = None
+    best_score = 0.0
+    for candidate in candidates:
+        candidate_vector = candidate.get("profile_vector") or _build_profile_vector(candidate.get("request_payload") or {})
+        score = _cosine_similarity(current_vector, candidate_vector)
+        if score >= min_similarity and score > best_score:
+            best_match = candidate
+            best_score = score
+
+    if not best_match:
+        return None
+
+    best_match["_match_score"] = round(best_score, 4)
+    return best_match
 
 
 def _get_diet_logic() -> DietGenerationLogic:
@@ -179,7 +295,7 @@ def _get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securi
     if not user_id:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload")
 
-    users_collection, _, _ = _get_collections()
+    users_collection, _, _, _ = _get_collections()
     user = users_collection.find_one({"_id": _to_object_id(user_id, "user id")})
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
@@ -258,6 +374,14 @@ class DietLogCreateRequest(BaseModel):
     loggedAt: Optional[datetime] = None
 
 
+class AssessmentResultCreateRequest(BaseModel):
+    type: str
+    scores: Dict[str, float]
+    schema: Optional[str] = None
+    disease: Optional[Dict[str, Any]] = None
+    capturedAt: Optional[datetime] = None
+
+
 app = FastAPI(
     title="Aayur.AI - Personalized Wellness Guide",
     version="4.0.0",
@@ -278,7 +402,10 @@ app.add_middleware(
 
 
 def _run_diet_job(job_id: ObjectId, user_id: ObjectId, request_payload: dict) -> None:
-    _, diet_jobs_collection, _ = _get_collections()
+    _, diet_jobs_collection, _, _ = _get_collections()
+
+    profile_signature = _build_profile_signature(request_payload)
+    profile_vector = _build_profile_vector(request_payload)
 
     diet_jobs_collection.update_one(
         {"_id": job_id, "user_id": user_id},
@@ -286,12 +413,33 @@ def _run_diet_job(job_id: ObjectId, user_id: ObjectId, request_payload: dict) ->
             "$set": {
                 "status": "running",
                 "message": "Analyzing your profile and generating plan...",
+                "profile_signature": profile_signature,
+                "profile_vector": profile_vector,
                 "updated_at": _utc_now(),
             }
         },
     )
 
     try:
+        # Reuse an already generated plan for highly similar users in the same cohort.
+        matched = _find_matching_completed_job(request_payload)
+        if matched and matched.get("result"):
+            diet_jobs_collection.update_one(
+                {"_id": job_id, "user_id": user_id},
+                {
+                    "$set": {
+                        "status": "completed",
+                        "result": matched.get("result"),
+                        "source": "matched",
+                        "matched_from_job_id": matched.get("_id"),
+                        "match_score": matched.get("_match_score"),
+                        "message": "Diet ready (matched with a highly similar profile).",
+                        "updated_at": _utc_now(),
+                    }
+                },
+            )
+            return
+
         result = _get_diet_logic().get_diet_plan(request_payload)
         if isinstance(result, dict) and "error" in result:
             diet_jobs_collection.update_one(
@@ -300,6 +448,7 @@ def _run_diet_job(job_id: ObjectId, user_id: ObjectId, request_payload: dict) ->
                     "$set": {
                         "status": "failed",
                         "error": result,
+                        "source": "generated",
                         "message": "Diet generation failed.",
                         "updated_at": _utc_now(),
                     }
@@ -313,6 +462,9 @@ def _run_diet_job(job_id: ObjectId, user_id: ObjectId, request_payload: dict) ->
                 "$set": {
                     "status": "completed",
                     "result": result,
+                        "source": "generated",
+                        "match_score": None,
+                        "matched_from_job_id": None,
                     "message": "Congratulations! Your diet is ready.",
                     "updated_at": _utc_now(),
                 }
@@ -325,6 +477,7 @@ def _run_diet_job(job_id: ObjectId, user_id: ObjectId, request_payload: dict) ->
                 "$set": {
                     "status": "failed",
                     "error": {"message": str(exc)},
+                        "source": "generated",
                     "message": "Diet generation failed.",
                     "updated_at": _utc_now(),
                 }
@@ -349,7 +502,7 @@ async def get_favicon():
 
 @app.post("/auth/signup")
 async def signup(request: SignupRequest):
-    users_collection, _, _ = _get_collections()
+    users_collection, _, _, _ = _get_collections()
     email = request.email.strip().lower()
     if not email or not request.password:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email and password are required")
@@ -380,7 +533,7 @@ async def signup(request: SignupRequest):
 
 @app.post("/auth/login")
 async def login(request: LoginRequest):
-    users_collection, _, _ = _get_collections()
+    users_collection, _, _, _ = _get_collections()
     email = request.email.strip().lower()
     user_doc = users_collection.find_one({"email": email})
 
@@ -403,7 +556,7 @@ async def login(request: LoginRequest):
 
 @app.post("/auth/google")
 async def google_auth(request: GoogleAuthRequest):
-    users_collection, _, _ = _get_collections()
+    users_collection, _, _, _ = _get_collections()
     payload = _verify_google_token(request.idToken)
     email = (payload.get("email") or "").strip().lower()
     if not email:
@@ -480,17 +633,24 @@ async def start_diet_job(
     user_doc: dict = Depends(_get_current_user),
 ):
     now = _utc_now()
+    profile_signature = _build_profile_signature(request.dietRequest.model_dump())
+    profile_vector = _build_profile_vector(request.dietRequest.model_dump())
     job_doc = {
         "user_id": user_doc["_id"],
         "status": "queued",
         "message": "Diet generation queued...",
         "request_payload": request.dietRequest.model_dump(),
+        "profile_signature": profile_signature,
+        "profile_vector": profile_vector,
+        "source": "generated",
+        "matched_from_job_id": None,
+        "match_score": None,
         "result": None,
         "error": None,
         "created_at": now,
         "updated_at": now,
     }
-    _, diet_jobs_collection, _ = _get_collections()
+    _, diet_jobs_collection, _, _ = _get_collections()
     inserted = diet_jobs_collection.insert_one(job_doc)
     background_tasks.add_task(_run_diet_job, inserted.inserted_id, user_doc["_id"], request.dietRequest.model_dump())
 
@@ -500,7 +660,7 @@ async def start_diet_job(
 
 @app.get("/diet-jobs/{job_id}")
 async def get_diet_job(job_id: str, user_doc: dict = Depends(_get_current_user)):
-    _, diet_jobs_collection, _ = _get_collections()
+    _, diet_jobs_collection, _, _ = _get_collections()
     obj_id = _to_object_id(job_id, "job id")
     job_doc = diet_jobs_collection.find_one({"_id": obj_id, "user_id": user_doc["_id"]})
     if not job_doc:
@@ -510,14 +670,14 @@ async def get_diet_job(job_id: str, user_doc: dict = Depends(_get_current_user))
 
 @app.get("/diet-jobs/latest")
 async def get_latest_diet_job(user_doc: dict = Depends(_get_current_user)):
-    _, diet_jobs_collection, _ = _get_collections()
+    _, diet_jobs_collection, _, _ = _get_collections()
     job_doc = diet_jobs_collection.find_one({"user_id": user_doc["_id"]}, sort=[("created_at", DESCENDING)])
     return _serialize_job(job_doc) if job_doc else {"id": None, "status": "none"}
 
 
 @app.post("/diet-logs")
 async def create_diet_log(request: DietLogCreateRequest, user_doc: dict = Depends(_get_current_user)):
-    _, _, diet_logs_collection = _get_collections()
+    _, _, diet_logs_collection, _ = _get_collections()
     now = _utc_now()
     payload = {
         "user_id": user_doc["_id"],
@@ -535,7 +695,7 @@ async def create_diet_log(request: DietLogCreateRequest, user_doc: dict = Depend
 
 @app.get("/diet-logs")
 async def list_diet_logs(limit: int = 30, user_doc: dict = Depends(_get_current_user)):
-    _, _, diet_logs_collection = _get_collections()
+    _, _, diet_logs_collection, _ = _get_collections()
     capped_limit = max(1, min(limit, 200))
     docs = list(
         diet_logs_collection.find({"user_id": user_doc["_id"]})
@@ -547,9 +707,45 @@ async def list_diet_logs(limit: int = 30, user_doc: dict = Depends(_get_current_
 
 @app.delete("/diet-logs/{log_id}")
 async def delete_diet_log(log_id: str, user_doc: dict = Depends(_get_current_user)):
-    _, _, diet_logs_collection = _get_collections()
+    _, _, diet_logs_collection, _ = _get_collections()
     obj_id = _to_object_id(log_id, "log id")
     deleted = diet_logs_collection.delete_one({"_id": obj_id, "user_id": user_doc["_id"]})
     if deleted.deleted_count == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Diet log not found")
     return {"ok": True}
+
+
+@app.post("/assessments")
+async def create_assessment_result(request: AssessmentResultCreateRequest, user_doc: dict = Depends(_get_current_user)):
+    assessment_type = request.type.strip().lower()
+    if assessment_type not in ALLOWED_ASSESSMENT_TYPES:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid assessment type")
+
+    _, _, _, assessment_collection = _get_collections()
+    now = _utc_now()
+    payload = {
+        "user_id": user_doc["_id"],
+        "type": assessment_type,
+        "scores": request.scores,
+        "schema": request.schema,
+        "disease": request.disease,
+        "captured_at": request.capturedAt or now,
+        "created_at": now,
+    }
+
+    inserted = assessment_collection.insert_one(payload)
+    created = assessment_collection.find_one({"_id": inserted.inserted_id, "user_id": user_doc["_id"]})
+    return _serialize_assessment_result(created)
+
+
+@app.get("/assessments/latest")
+async def get_latest_assessments(user_doc: dict = Depends(_get_current_user)):
+    _, _, _, assessment_collection = _get_collections()
+    result = {}
+    for assessment_type in ALLOWED_ASSESSMENT_TYPES:
+        doc = assessment_collection.find_one(
+            {"user_id": user_doc["_id"], "type": assessment_type},
+            sort=[("created_at", DESCENDING)],
+        )
+        result[assessment_type] = _serialize_assessment_result(doc) if doc else None
+    return result

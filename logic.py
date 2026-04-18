@@ -28,7 +28,7 @@ class DietGenerationLogic:
         print("Initializing DietGenerationLogic...")
         
         # --- Models are now all from Google Gemini ---
-        self.embedding_model_name = 'models/text-embedding-004'
+        self.embedding_model_name = 'models/gemini-embedding-001'
         self.generative_model = genai.GenerativeModel('gemini-2.5-pro')
 
         print("Connecting to Pinecone index 'ayurvedic-foods-v2'...")
