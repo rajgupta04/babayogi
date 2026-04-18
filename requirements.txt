@@ -5,3 +5,6 @@ google-generativeai
 numpy
 python-dotenv
 pinecone
+pymongo
+PyJWT
+google-auth
