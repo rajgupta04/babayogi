@@ -1,0 +1,750 @@
+{
+  "_meta": {
+    "title": "Ayurvedic Dosha, Rasa, Guna & Agni Reference",
+    "description": "Complete mapping of the fundamental Ayurvedic concepts: Tridosha (three bodily humors), Shad-Rasa (six tastes), Vimshati Guna (twenty qualities), and Chaturvidha Agni (four digestive fire types). All relationships are sourced from classical Ayurvedic texts.",
+    "schema_version": "1.0.0",
+    "dosha_effect_scale": {
+      "-2": "Strongly pacifies / reduces",
+      "-1": "Mildly pacifies / reduces",
+      "0": "Neutral / negligible effect",
+      "+1": "Mildly aggravates / increases",
+      "+2": "Strongly aggravates / increases"
+    },
+    "primary_sources": [
+      "Charaka Samhita (Agnivesha, ~300 BCE)",
+      "Sushruta Samhita (Sushruta, ~600 BCE)",
+      "Ashtanga Hridayam (Vagbhata, ~7th century CE)",
+      "Bhavaprakasha (Bhavamishra, 16th century CE)",
+      "Sharangadhara Samhita (Sharangadhara, 13th century CE)"
+    ],
+    "how_to_edit": "Each section is independent. To modify a dosha's properties, edit only that dosha's object. To add a new rasa or guna, add a new key-value pair following the existing pattern. Run 'python -m ontology.verify' after any changes to validate consistency."
+  },
+
+  "doshas": {
+    "vata": {
+      "sanskrit": "वात",
+      "meaning": "That which moves things",
+      "elements": ["vayu (air)", "akasha (ether/space)"],
+      "seat_in_body": "Colon (Pakwashaya), pelvic region, thighs, ears, bones, skin",
+      "functions": [
+        "All movement in body and mind",
+        "Breathing (Prana)",
+        "Nerve impulses and sensory perception",
+        "Elimination (Apana)",
+        "Circulation and transportation",
+        "Speech and creativity"
+      ],
+      "qualities": ["sheeta (cold)", "ruksha (dry)", "laghu (light)", "chala (mobile)", "sukshma (subtle)", "khara (rough)", "vishada (clear)"],
+      "pacifying_qualities": ["ushna (hot)", "snigdha (oily)", "guru (heavy)", "sthira (stable)", "shlakshna (smooth)", "sandra (dense)"],
+      "pacifying_rasas": ["madhura", "amla", "lavana"],
+      "aggravating_rasas": ["katu", "tikta", "kashaya"],
+      "peak_time_of_day": ["02:00-06:00", "14:00-18:00"],
+      "peak_season": "varsha (monsoon) and shishira (late winter)",
+      "peak_life_stage": "Old age (Vriddha, 60+ years)",
+      "balanced_signs": [
+        "Regular elimination",
+        "Sound sleep",
+        "Good energy and enthusiasm",
+        "Clear mind and creativity",
+        "Healthy appetite"
+      ],
+      "imbalanced_signs": [
+        "Anxiety, fear, nervousness",
+        "Insomnia or disturbed sleep",
+        "Constipation, bloating, gas",
+        "Dry skin, cracked lips",
+        "Joint pain and cracking",
+        "Weight loss, emaciation",
+        "Irregular appetite",
+        "Tremors, twitching"
+      ],
+      "dietary_principles": [
+        "Favor warm, cooked, moist, grounding foods",
+        "Use healthy oils and ghee liberally",
+        "Prefer sweet, sour, and salty tastes",
+        "Eat regular meals at consistent times",
+        "Avoid raw, cold, and dry foods",
+        "Avoid excessive fasting"
+      ],
+      "source": "Charaka Samhita, Sutra Sthana 1, 12; Ashtanga Hridayam, Sutra 1, 11"
+    },
+
+    "pitta": {
+      "sanskrit": "पित्त",
+      "meaning": "That which digests / transforms",
+      "elements": ["agni (fire)", "jala (water)"],
+      "seat_in_body": "Small intestine (Grahani), stomach, sweat glands, blood, eyes, skin",
+      "functions": [
+        "Digestion and metabolism (Pachaka)",
+        "Body temperature regulation",
+        "Visual perception (Alochaka)",
+        "Skin complexion and luster (Bhrajaka)",
+        "Intellect and courage",
+        "Hunger and thirst"
+      ],
+      "qualities": ["ushna (hot)", "tikshna (sharp)", "laghu (light)", "snigdha (slightly oily)", "drava (liquid)", "sara (spreading)", "visra (fleshy smell)"],
+      "pacifying_qualities": ["sheeta (cold)", "guru (heavy)", "mridu (soft)", "manda (slow)", "ruksha (dry)", "sandra (dense)"],
+      "pacifying_rasas": ["madhura", "tikta", "kashaya"],
+      "aggravating_rasas": ["katu", "amla", "lavana"],
+      "peak_time_of_day": ["10:00-14:00", "22:00-02:00"],
+      "peak_season": "grishma (summer) and sharad (autumn)",
+      "peak_life_stage": "Middle age (Madhya, 16-60 years)",
+      "balanced_signs": [
+        "Strong digestion and appetite",
+        "Sharp intellect and focus",
+        "Warm and lustrous complexion",
+        "Good leadership qualities",
+        "Contentment and courage"
+      ],
+      "imbalanced_signs": [
+        "Hyperacidity, heartburn, ulcers",
+        "Skin rashes, acne, inflammation",
+        "Anger, irritability, impatience",
+        "Excessive body heat, sweating",
+        "Diarrhea, loose stools",
+        "Burning sensation in eyes",
+        "Premature greying or hair loss",
+        "Excessive hunger and thirst"
+      ],
+      "dietary_principles": [
+        "Favor cool or room-temperature foods",
+        "Prefer sweet, bitter, and astringent tastes",
+        "Avoid spicy, sour, salty, and fermented foods",
+        "Include plenty of raw salads and cooling herbs",
+        "Moderate use of oils, prefer coconut and ghee",
+        "Do not skip meals, especially lunch"
+      ],
+      "source": "Charaka Samhita, Sutra Sthana 1, 12; Ashtanga Hridayam, Sutra 1, 12"
+    },
+
+    "kapha": {
+      "sanskrit": "कफ",
+      "meaning": "That which holds things together / binds",
+      "elements": ["jala (water)", "prithvi (earth)"],
+      "seat_in_body": "Chest (Uras), throat, head, stomach, joints, plasma, fat tissue",
+      "functions": [
+        "Structure and lubrication",
+        "Stability and strength (Avalambaka)",
+        "Taste perception (Bodhaka)",
+        "Joint lubrication (Shleshaka)",
+        "Moisture of mucous membranes",
+        "Immunity and nourishment",
+        "Emotional stability and compassion"
+      ],
+      "qualities": ["sheeta (cold)", "guru (heavy)", "manda (slow/dull)", "snigdha (oily)", "shlakshna (smooth)", "sandra (dense)", "sthira (stable)", "picchila (cloudy/sticky)"],
+      "pacifying_qualities": ["ushna (hot)", "laghu (light)", "tikshna (sharp)", "ruksha (dry)", "khara (rough)", "vishada (clear)", "chala (mobile)"],
+      "pacifying_rasas": ["katu", "tikta", "kashaya"],
+      "aggravating_rasas": ["madhura", "amla", "lavana"],
+      "peak_time_of_day": ["06:00-10:00", "18:00-22:00"],
+      "peak_season": "vasanta (spring) and hemanta (early winter)",
+      "peak_life_stage": "Childhood (Bala, 0-16 years)",
+      "balanced_signs": [
+        "Strong immunity and stamina",
+        "Calm and compassionate nature",
+        "Smooth, lustrous skin",
+        "Good memory and loyalty",
+        "Sound and restful sleep"
+      ],
+      "imbalanced_signs": [
+        "Weight gain, obesity",
+        "Lethargy, sluggishness, excessive sleep",
+        "Congestion, mucus, sinusitis",
+        "Water retention, edema",
+        "Loss of appetite, nausea",
+        "Attachment, possessiveness, greed",
+        "Diabetes (Prameha)",
+        "Depression, lack of motivation"
+      ],
+      "dietary_principles": [
+        "Favor light, warm, dry, and stimulating foods",
+        "Prefer pungent, bitter, and astringent tastes",
+        "Reduce sweet, sour, and salty tastes",
+        "Minimize dairy, fried foods, and sweets",
+        "Use warming spices generously",
+        "Light breakfast or skip; largest meal at lunch",
+        "Occasional fasting is beneficial"
+      ],
+      "source": "Charaka Samhita, Sutra Sthana 1, 12; Ashtanga Hridayam, Sutra 1, 13"
+    }
+  },
+
+  "rasas": {
+    "_description": "Shad-Rasa: The six tastes and their effects on doshas, composed of Pancha Mahabhutas (five elements). Source: Charaka Samhita Sutra 26; Ashtanga Hridayam Sutra 10.",
+    "madhura": {
+      "english": "Sweet",
+      "sanskrit": "मधुर",
+      "elements": ["prithvi (earth)", "jala (water)"],
+      "virya": "sheeta",
+      "vipaka": "madhura",
+      "dosha_effect": { "vata": -2, "pitta": -1, "kapha": 2 },
+      "qualities": ["guru (heavy)", "snigdha (oily)", "sheeta (cold)"],
+      "therapeutic_actions": [
+        "Nourishes all dhatus (tissues)",
+        "Promotes strength and ojas (vitality)",
+        "Relieves thirst and burning sensations",
+        "Promotes healing of wounds",
+        "Good for skin and hair"
+      ],
+      "excess_effects": [
+        "Obesity and weight gain",
+        "Diabetes (Prameha)",
+        "Lethargy and excessive sleep",
+        "Excess mucus production",
+        "Tumors and abnormal growths"
+      ],
+      "common_foods": ["rice", "wheat", "milk", "ghee", "sugar", "dates", "sweet potato", "banana"],
+      "source": "Charaka Samhita, Sutra 26.42; Ashtanga Hridayam, Sutra 10.1-5"
+    },
+    "amla": {
+      "english": "Sour",
+      "sanskrit": "अम्ल",
+      "elements": ["prithvi (earth)", "agni (fire)"],
+      "virya": "ushna",
+      "vipaka": "amla",
+      "dosha_effect": { "vata": -1, "pitta": 2, "kapha": 1 },
+      "qualities": ["laghu (light)", "ushna (hot)", "snigdha (oily)"],
+      "therapeutic_actions": [
+        "Stimulates appetite and digestion",
+        "Nourishes and energizes the body",
+        "Moistens and satisfies",
+        "Supports heart function",
+        "Aids in iron absorption"
+      ],
+      "excess_effects": [
+        "Hyperacidity and heartburn",
+        "Skin disorders and itching",
+        "Blood disorders",
+        "Burning sensation",
+        "Looseness of tissues"
+      ],
+      "common_foods": ["lemon", "tamarind", "yogurt", "vinegar", "amla (gooseberry)", "tomato", "fermented foods"],
+      "source": "Charaka Samhita, Sutra 26.43; Ashtanga Hridayam, Sutra 10.6-8"
+    },
+    "lavana": {
+      "english": "Salty",
+      "sanskrit": "लवण",
+      "elements": ["jala (water)", "agni (fire)"],
+      "virya": "ushna",
+      "vipaka": "madhura",
+      "dosha_effect": { "vata": -1, "pitta": 2, "kapha": 1 },
+      "qualities": ["guru (heavy)", "ushna (hot)", "snigdha (oily)"],
+      "therapeutic_actions": [
+        "Stimulates digestion (Deepana)",
+        "Softens and moistens tissues",
+        "Clears channels and removes blockages",
+        "Adds flavor, enhances taste of food",
+        "Mildly laxative"
+      ],
+      "excess_effects": [
+        "Edema and water retention",
+        "Hypertension",
+        "Aggravation of blood disorders",
+        "Premature greying and wrinkles",
+        "Skin inflammation"
+      ],
+      "common_foods": ["rock salt (saindhava)", "sea salt", "seaweed", "celery", "soy sauce"],
+      "source": "Charaka Samhita, Sutra 26.44; Ashtanga Hridayam, Sutra 10.9-12"
+    },
+    "katu": {
+      "english": "Pungent",
+      "sanskrit": "कटु",
+      "elements": ["agni (fire)", "vayu (air)"],
+      "virya": "ushna",
+      "vipaka": "katu",
+      "dosha_effect": { "vata": 1, "pitta": 2, "kapha": -2 },
+      "qualities": ["laghu (light)", "ushna (hot)", "ruksha (dry)"],
+      "therapeutic_actions": [
+        "Stimulates digestion and metabolism",
+        "Clears congestion and mucus",
+        "Destroys parasites and toxins",
+        "Improves circulation and sweating",
+        "Reduces obesity and lethargy"
+      ],
+      "excess_effects": [
+        "Burning sensation throughout body",
+        "Dryness of mouth and lips",
+        "Depletion of reproductive fluids",
+        "Tremors and giddiness",
+        "Fainting, muscle wasting"
+      ],
+      "common_foods": ["black pepper", "chili", "ginger", "garlic", "onion", "mustard", "radish", "asafoetida"],
+      "source": "Charaka Samhita, Sutra 26.45; Ashtanga Hridayam, Sutra 10.13-16"
+    },
+    "tikta": {
+      "english": "Bitter",
+      "sanskrit": "तिक्त",
+      "elements": ["vayu (air)", "akasha (ether)"],
+      "virya": "sheeta",
+      "vipaka": "katu",
+      "dosha_effect": { "vata": 1, "pitta": -2, "kapha": -2 },
+      "qualities": ["laghu (light)", "sheeta (cold)", "ruksha (dry)"],
+      "therapeutic_actions": [
+        "Best taste for detoxification (Ama Pachana)",
+        "Anti-inflammatory and antipyretic",
+        "Purifies blood and skin",
+        "Reduces burning and itching",
+        "Anthelmintic (kills parasites)",
+        "Reduces fat and dries excess fluids"
+      ],
+      "excess_effects": [
+        "Depletion of all dhatus",
+        "Roughness and emaciation",
+        "Dizziness and fainting",
+        "Dryness of mouth",
+        "Vata aggravation"
+      ],
+      "common_foods": ["turmeric", "neem", "bitter gourd", "fenugreek", "dandelion", "aloe vera", "green tea", "dark chocolate"],
+      "source": "Charaka Samhita, Sutra 26.46; Ashtanga Hridayam, Sutra 10.17-20"
+    },
+    "kashaya": {
+      "english": "Astringent",
+      "sanskrit": "कषाय",
+      "elements": ["vayu (air)", "prithvi (earth)"],
+      "virya": "sheeta",
+      "vipaka": "katu",
+      "dosha_effect": { "vata": 1, "pitta": -1, "kapha": -1 },
+      "qualities": ["laghu (light)", "sheeta (cold)", "ruksha (dry)"],
+      "therapeutic_actions": [
+        "Absorbs excess moisture",
+        "Heals ulcers and wounds",
+        "Tightens and tones tissues",
+        "Reduces bleeding and discharge",
+        "Anti-diarrheal"
+      ],
+      "excess_effects": [
+        "Dryness of mouth and throat",
+        "Constipation",
+        "Chest pain and cardiac disorders",
+        "Bloating and gas",
+        "Hoarseness of voice",
+        "Emaciation"
+      ],
+      "common_foods": ["pomegranate", "unripe banana", "chickpeas", "green beans", "cranberries", "turmeric", "honey", "arjuna bark tea"],
+      "source": "Charaka Samhita, Sutra 26.47; Ashtanga Hridayam, Sutra 10.21-24"
+    }
+  },
+
+  "gunas": {
+    "_description": "Vimshati Guna: Twenty fundamental qualities arranged in ten opposite pairs (Dwandwa). Each quality has specific effects on doshas. Source: Charaka Samhita Sutra 1.49, 25; Vaisheshika Darshana.",
+    "pairs": [
+      {
+        "pair_name": "guru_laghu",
+        "quality_1": {
+          "sanskrit": "गुरु",
+          "english": "Heavy",
+          "id": "guru",
+          "effects": "Nourishes, grounds, builds bulk, slows digestion",
+          "increases": ["kapha"],
+          "decreases": ["vata"],
+          "pitta_effect": "neutral",
+          "examples": ["wheat", "cheese", "meat", "yogurt"]
+        },
+        "quality_2": {
+          "sanskrit": "लघु",
+          "english": "Light",
+          "id": "laghu",
+          "effects": "Easy to digest, reduces weight, stimulates Agni, cleanses",
+          "increases": ["vata"],
+          "decreases": ["kapha"],
+          "pitta_effect": "neutral",
+          "examples": ["barley", "moong dal", "honey", "apples"]
+        }
+      },
+      {
+        "pair_name": "manda_tikshna",
+        "quality_1": {
+          "sanskrit": "मन्द",
+          "english": "Slow / Dull",
+          "id": "manda",
+          "effects": "Calms, sedates, slows activity, promotes relaxation",
+          "increases": ["kapha"],
+          "decreases": ["pitta"],
+          "vata_effect": "neutral",
+          "examples": ["ghee", "heavy meals", "warm milk"]
+        },
+        "quality_2": {
+          "sanskrit": "तीक्ष्ण",
+          "english": "Sharp / Penetrating",
+          "id": "tikshna",
+          "effects": "Stimulates, penetrates tissues, promotes quick digestion",
+          "increases": ["pitta"],
+          "decreases": ["kapha"],
+          "vata_effect": "mildly increases",
+          "examples": ["black pepper", "chilies", "alcohol", "garlic"]
+        }
+      },
+      {
+        "pair_name": "sheeta_ushna",
+        "quality_1": {
+          "sanskrit": "शीत",
+          "english": "Cold",
+          "id": "sheeta",
+          "effects": "Cools, constricts, reduces inflammation, numbs",
+          "increases": ["vata", "kapha"],
+          "decreases": ["pitta"],
+          "examples": ["mint", "coconut", "cucumber", "milk"]
+        },
+        "quality_2": {
+          "sanskrit": "उष्ण",
+          "english": "Hot",
+          "id": "ushna",
+          "effects": "Heats, dilates, promotes digestion and sweating",
+          "increases": ["pitta"],
+          "decreases": ["vata", "kapha"],
+          "examples": ["ginger", "pepper", "mustard", "honey"]
+        }
+      },
+      {
+        "pair_name": "snigdha_ruksha",
+        "quality_1": {
+          "sanskrit": "स्निग्ध",
+          "english": "Oily / Unctuous",
+          "id": "snigdha",
+          "effects": "Moisturizes, lubricates, nourishes, softens",
+          "increases": ["kapha"],
+          "decreases": ["vata"],
+          "pitta_effect": "mildly increases",
+          "examples": ["ghee", "sesame oil", "avocado", "nuts"]
+        },
+        "quality_2": {
+          "sanskrit": "रूक्ष",
+          "english": "Dry",
+          "id": "ruksha",
+          "effects": "Absorbs moisture, creates roughness, causes constipation",
+          "increases": ["vata"],
+          "decreases": ["kapha"],
+          "pitta_effect": "mildly decreases",
+          "examples": ["barley", "millet", "honey", "beans"]
+        }
+      },
+      {
+        "pair_name": "shlakshna_khara",
+        "quality_1": {
+          "sanskrit": "श्लक्ष्ण",
+          "english": "Smooth / Slimy",
+          "id": "shlakshna",
+          "effects": "Soothes, heals wounds, promotes soft tissues",
+          "increases": ["kapha"],
+          "decreases": ["vata"],
+          "pitta_effect": "mildly decreases",
+          "examples": ["okra", "flaxseed", "aloe vera", "banana"]
+        },
+        "quality_2": {
+          "sanskrit": "खर",
+          "english": "Rough",
+          "id": "khara",
+          "effects": "Scrapes, cleanses channels, creates dryness and cracking",
+          "increases": ["vata"],
+          "decreases": ["kapha"],
+          "pitta_effect": "neutral",
+          "examples": ["raw vegetables", "millet", "popcorn"]
+        }
+      },
+      {
+        "pair_name": "sandra_drava",
+        "quality_1": {
+          "sanskrit": "सान्द्र",
+          "english": "Dense / Solid",
+          "id": "sandra",
+          "effects": "Nourishes, strengthens, adds bulk",
+          "increases": ["kapha"],
+          "decreases": ["vata"],
+          "pitta_effect": "neutral",
+          "examples": ["cheese", "curd", "thick grains"]
+        },
+        "quality_2": {
+          "sanskrit": "द्रव",
+          "english": "Liquid / Flowing",
+          "id": "drava",
+          "effects": "Moistens, promotes salivation, dissolves",
+          "increases": ["pitta", "kapha"],
+          "decreases": ["vata"],
+          "examples": ["soups", "juices", "milk", "water"]
+        }
+      },
+      {
+        "pair_name": "mridu_kathina",
+        "quality_1": {
+          "sanskrit": "मृदु",
+          "english": "Soft",
+          "id": "mridu",
+          "effects": "Relaxes, softens, promotes looseness in tissues",
+          "increases": ["kapha"],
+          "decreases": ["vata", "pitta"],
+          "examples": ["ghee", "butter", "ripe fruits", "cooked rice"]
+        },
+        "quality_2": {
+          "sanskrit": "कठिन",
+          "english": "Hard",
+          "id": "kathina",
+          "effects": "Strengthens, creates firmness and resistance",
+          "increases": ["vata", "kapha"],
+          "decreases": [],
+          "pitta_effect": "neutral",
+          "examples": ["raw carrots", "nuts", "dried grains"]
+        }
+      },
+      {
+        "pair_name": "sthira_chala",
+        "quality_1": {
+          "sanskrit": "स्थिर",
+          "english": "Stable / Static",
+          "id": "sthira",
+          "effects": "Promotes stability, support, and constipation",
+          "increases": ["kapha"],
+          "decreases": ["vata"],
+          "pitta_effect": "neutral",
+          "examples": ["root vegetables", "heavy grains", "meat"]
+        },
+        "quality_2": {
+          "sanskrit": "चल",
+          "english": "Mobile / Spreading",
+          "id": "chala",
+          "effects": "Promotes movement, restlessness, peristalsis",
+          "increases": ["vata"],
+          "decreases": ["kapha"],
+          "pitta_effect": "mildly increases",
+          "examples": ["caffeine", "sprouted foods", "stimulants"]
+        }
+      },
+      {
+        "pair_name": "sukshma_sthula",
+        "quality_1": {
+          "sanskrit": "सूक्ष्म",
+          "english": "Subtle / Minute",
+          "id": "sukshma",
+          "effects": "Penetrates tissues deeply, reaches micro-channels",
+          "increases": ["vata", "pitta"],
+          "decreases": [],
+          "kapha_effect": "neutral",
+          "examples": ["alcohol", "camphor", "essential oils", "honey"]
+        },
+        "quality_2": {
+          "sanskrit": "स्थूल",
+          "english": "Gross / Bulky",
+          "id": "sthula",
+          "effects": "Causes obstruction, adds bulk, creates coating",
+          "increases": ["kapha"],
+          "decreases": [],
+          "vata_effect": "mildly decreases",
+          "examples": ["flour-based foods", "heavy desserts", "cheese"]
+        }
+      },
+      {
+        "pair_name": "vishada_picchila",
+        "quality_1": {
+          "sanskrit": "विशद",
+          "english": "Clear / Non-slimy",
+          "id": "vishada",
+          "effects": "Cleanses, pacifies Kapha, promotes clarity",
+          "increases": ["vata"],
+          "decreases": ["kapha"],
+          "pitta_effect": "neutral",
+          "examples": ["herbal teas", "clear broth", "triphala"]
+        },
+        "quality_2": {
+          "sanskrit": "पिच्छिल",
+          "english": "Cloudy / Slimy",
+          "id": "picchila",
+          "effects": "Lubricates, increases mucus, softens, heals wounds",
+          "increases": ["kapha"],
+          "decreases": ["vata"],
+          "pitta_effect": "mildly decreases",
+          "examples": ["flaxseed", "marshmallow root", "okra", "shatavari"]
+        }
+      }
+    ]
+  },
+
+  "agni_types": {
+    "_description": "Chaturvidha Agni: The four types of digestive fire, corresponding to dosha dominance. Agni is the central concept in Ayurvedic dietetics — all food recommendations ultimately serve to optimise Agni. Source: Charaka Samhita Chikitsa 15.",
+    "sama": {
+      "english": "Balanced",
+      "sanskrit": "सम अग्नि",
+      "associated_dosha": "tridosha_balanced",
+      "description": "Perfectly balanced digestive fire. Can digest a normal quantity of food in proper time without discomfort.",
+      "signs": [
+        "Regular appetite at meal times",
+        "No bloating or heaviness after meals",
+        "Regular, well-formed elimination",
+        "Good energy and mental clarity",
+        "Healthy body weight"
+      ],
+      "dietary_approach": "Maintain balanced diet with all six tastes. No specific interventions needed.",
+      "recommended_foods": ["all seasonal foods in moderation"],
+      "avoid": ["excessive quantities of any single taste"],
+      "source": "Charaka Samhita, Chikitsa 15.39-40"
+    },
+    "vishama": {
+      "english": "Irregular / Variable",
+      "sanskrit": "विषम अग्नि",
+      "associated_dosha": "vata",
+      "description": "Erratic digestive fire that fluctuates unpredictably — sometimes strong, sometimes weak. Caused by Vata aggravation.",
+      "signs": [
+        "Appetite comes and goes unpredictably",
+        "Bloating, gas, and abdominal distension",
+        "Alternating constipation and loose stools",
+        "Gurgling sounds in abdomen",
+        "Variable energy levels"
+      ],
+      "dietary_approach": "Warm, oily, regular meals. Avoid fasting and cold foods. Eat at fixed times.",
+      "recommended_foods": ["warm soups", "ghee", "cooked vegetables", "basmati rice", "moong dal", "ginger tea"],
+      "avoid": ["raw foods", "cold drinks", "beans (most)", "dry snacks", "irregular eating"],
+      "herbs_for_correction": ["Hingwastak Churna", "Ajwain", "Dry Ginger (Shunti)", "Hing (Asafoetida)"],
+      "source": "Charaka Samhita, Chikitsa 15.42-44"
+    },
+    "tikshna": {
+      "english": "Sharp / Hyperactive",
+      "sanskrit": "तीक्ष्ण अग्नि",
+      "associated_dosha": "pitta",
+      "description": "Excessively strong digestive fire that digests even large meals quickly and creates intense hunger. Caused by Pitta aggravation.",
+      "signs": [
+        "Excessive hunger, cannot tolerate fasting",
+        "Burning in stomach or chest (heartburn)",
+        "Dry throat and lips",
+        "Hyperacidity, acid reflux",
+        "Loose/hot stools or diarrhea",
+        "Irritability when meals are delayed"
+      ],
+      "dietary_approach": "Cooling, substantial meals. Do not skip meals. Avoid spicy, sour, fermented foods.",
+      "recommended_foods": ["milk", "ghee", "coconut", "rice", "sweet fruits", "bitter greens", "coriander", "fennel"],
+      "avoid": ["chilies", "pickles", "vinegar", "alcohol", "tomatoes", "sour fruits", "fried foods"],
+      "herbs_for_correction": ["Shatavari", "Amalaki", "Yashtimadhu (Licorice)", "Guduchi"],
+      "source": "Charaka Samhita, Chikitsa 15.45-47"
+    },
+    "manda": {
+      "english": "Slow / Weak",
+      "sanskrit": "मन्द अग्नि",
+      "associated_dosha": "kapha",
+      "description": "Sluggish digestive fire that is slow to digest even small quantities of food. Caused by Kapha aggravation.",
+      "signs": [
+        "Low appetite, aversion to food",
+        "Heaviness and lethargy after eating",
+        "Nausea, excessive salivation",
+        "Slow bowel movements, sticky stools",
+        "Weight gain even with moderate eating",
+        "Feeling of fullness in stomach"
+      ],
+      "dietary_approach": "Light, warm, dry, spiced foods. Reduce quantity. Occasional fasting is beneficial.",
+      "recommended_foods": ["barley", "millet", "honey", "warm spices", "light soups", "steamed vegetables", "green tea"],
+      "avoid": ["dairy", "sweets", "heavy grains", "fried foods", "cold foods", "excessive oils", "overeating"],
+      "herbs_for_correction": ["Trikatu (Pippali, Maricha, Shunti)", "Chitrak", "Vidanga", "Pippali"],
+      "source": "Charaka Samhita, Chikitsa 15.48-50"
+    }
+  },
+
+  "dhatus": {
+    "_description": "Sapta Dhatu: The seven bodily tissues, nourished sequentially. Understanding dhatu nourishment is essential for diet planning as food must pass through each dhatu level. Source: Charaka Samhita Chikitsa 15; Sushruta Samhita Sutra 14.",
+    "sequence": [
+      {
+        "name": "rasa",
+        "english": "Plasma / Lymph",
+        "sanskrit": "रस",
+        "nourished_by_rasa": "madhura",
+        "function": "Nourishment, satisfaction, complexion",
+        "depleted_signs": ["dehydration", "fatigue", "dry skin", "palpitations"],
+        "excess_signs": ["excess salivation", "nausea", "cold sensation"]
+      },
+      {
+        "name": "rakta",
+        "english": "Blood",
+        "sanskrit": "रक्त",
+        "nourished_by_rasa": "madhura",
+        "function": "Oxygenation, vitality, complexion",
+        "depleted_signs": ["pallor", "low blood pressure", "roughness of skin"],
+        "excess_signs": ["skin rashes", "boils", "jaundice", "bleeding disorders"]
+      },
+      {
+        "name": "mamsa",
+        "english": "Muscle",
+        "sanskrit": "मांस",
+        "nourished_by_rasa": "madhura",
+        "function": "Covers bones, provides strength and movement",
+        "depleted_signs": ["emaciation", "weakness", "fatigue"],
+        "excess_signs": ["tumors", "fibroids", "muscle hypertrophy"]
+      },
+      {
+        "name": "meda",
+        "english": "Fat / Adipose",
+        "sanskrit": "मेद",
+        "nourished_by_rasa": "madhura",
+        "function": "Lubrication, insulation, love and affection",
+        "depleted_signs": ["cracking joints", "fatigue", "thin body"],
+        "excess_signs": ["obesity", "lethargy", "diabetes"]
+      },
+      {
+        "name": "asthi",
+        "english": "Bone",
+        "sanskrit": "अस्थि",
+        "nourished_by_rasa": "kashaya",
+        "function": "Support, protection, structure",
+        "depleted_signs": ["joint pain", "osteoporosis", "hair loss", "brittle nails"],
+        "excess_signs": ["bone spurs", "extra teeth", "large frame"]
+      },
+      {
+        "name": "majja",
+        "english": "Marrow / Nerve",
+        "sanskrit": "मज्जा",
+        "nourished_by_rasa": "madhura",
+        "function": "Fills bones, nourishes nervous system",
+        "depleted_signs": ["pain in joints", "dizziness", "dark spots in vision"],
+        "excess_signs": ["heaviness in eyes", "deep-seated infections"]
+      },
+      {
+        "name": "shukra",
+        "english": "Reproductive Tissue",
+        "sanskrit": "शुक्र",
+        "nourished_by_rasa": "madhura",
+        "function": "Reproduction, vitality, immunity, ojas production",
+        "depleted_signs": ["infertility", "weakness", "low libido", "dryness"],
+        "excess_signs": ["excessive desire", "prostatic enlargement"]
+      }
+    ]
+  },
+
+  "prakriti_dual_types": {
+    "_description": "Most people have dual-dosha constitutions (Dvandvaja Prakriti). These are the six most common types and their dietary focus. Rare Sama Prakriti (equal all three) is the seventh. Source: Charaka Samhita Vimana 8.",
+    "vata_pitta": {
+      "primary_traits": "Thin build with sharp mind. Irregular appetite but strong when hungry. Creative but can be anxious and irritable.",
+      "dietary_focus": "Warm, nourishing, moderately spiced. Avoid extremes of hot and cold. Sweet, sour tastes are best. Avoid excessive bitter and pungent.",
+      "key_rasas": ["madhura", "amla"],
+      "avoid_rasas": ["katu"],
+      "priority_dosha_to_watch": "Balance whichever is currently aggravated; Vata in cold/dry seasons, Pitta in hot seasons."
+    },
+    "pitta_kapha": {
+      "primary_traits": "Medium to sturdy build. Strong digestion. Determined and steady but can be possessive and angry.",
+      "dietary_focus": "Moderate meals, not too heavy or oily. Bitter and astringent tastes help both. Avoid excessive sweet, sour, salty.",
+      "key_rasas": ["tikta", "kashaya"],
+      "avoid_rasas": ["amla", "lavana"],
+      "priority_dosha_to_watch": "Pitta in summer; Kapha in spring and early winter."
+    },
+    "vata_kapha": {
+      "primary_traits": "Can be thin or heavy (variable). Slow digestion, prone to cold. Gentle and creative but may lack motivation.",
+      "dietary_focus": "Warm, light, well-spiced foods. Moderate oils (not excessive). Pungent taste helps both doshas. Avoid cold and heavy foods.",
+      "key_rasas": ["katu", "madhura"],
+      "avoid_rasas": ["kashaya"],
+      "priority_dosha_to_watch": "Vata in cold seasons; Kapha in spring. Warm and light food serves both."
+    },
+    "pitta_vata": {
+      "primary_traits": "Medium build, sharp features, intense. Strong appetite, can burn out. Goal-oriented and competitive.",
+      "dietary_focus": "Similar to Vata-Pitta but prioritize cooling Pitta first since Pitta tends to be more disruptive. Sweet taste is best for both.",
+      "key_rasas": ["madhura"],
+      "avoid_rasas": ["katu", "amla"],
+      "priority_dosha_to_watch": "Pitta in summer; Vata in winter."
+    },
+    "kapha_pitta": {
+      "primary_traits": "Sturdy, strong build. Good stamina and digestion. Calm but can be stubborn and possessive.",
+      "dietary_focus": "Similar to Pitta-Kapha. Light and slightly dry. Bitter taste is universally helpful.",
+      "key_rasas": ["tikta", "kashaya"],
+      "avoid_rasas": ["madhura", "amla", "lavana"],
+      "priority_dosha_to_watch": "Kapha in spring; Pitta in summer."
+    },
+    "kapha_vata": {
+      "primary_traits": "Variable build. Slow metabolism but nervous energy. Can feel cold easily. Loyal and creative.",
+      "dietary_focus": "Similar to Vata-Kapha. Warm and lightly spiced. Moderate portions. Sweet and pungent tastes in balance.",
+      "key_rasas": ["katu"],
+      "avoid_rasas": ["kashaya", "tikta"],
+      "priority_dosha_to_watch": "Kapha in spring; Vata in winter and monsoon."
+    }
+  }
+}

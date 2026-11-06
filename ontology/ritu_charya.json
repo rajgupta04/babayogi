@@ -1,0 +1,368 @@
+{
+  "_meta": {
+    "title": "Ritucharya — Ayurvedic Seasonal Dietary & Lifestyle Regimens",
+    "description": "Complete seasonal regimen (Ritucharya) defining the six Ayurvedic seasons, their effects on doshas and Agni, and specific dietary/lifestyle recommendations for each. The year is divided into two Ayanas: Uttarayana (Adana Kala - depleting period, sun moves north) and Dakshinayana (Visarga Kala - nourishing period, sun moves south).",
+    "schema_version": "1.0.0",
+    "primary_source": "Charaka Samhita, Sutra Sthana, Chapter 6 (Tasyashitiya Adhyaya)",
+    "secondary_sources": [
+      "Ashtanga Hridayam, Sutra Sthana, Chapter 3 (Ritucharya)",
+      "Sushruta Samhita, Sutra Sthana, Chapter 6",
+      "Bhavaprakasha, Purva Khanda"
+    ],
+    "how_to_edit": "Each season is independent. To adjust season-to-month mapping for a different region, edit the 'months' and 'approximate_gregorian' fields. Indian subcontinent mapping is default."
+  },
+
+  "ayanas": {
+    "uttarayana": {
+      "english": "Northern Solstice / Depleting Period",
+      "sanskrit": "उत्तरायण (आदान काल)",
+      "description": "Sun moves northward. Increasingly hot and dry. Depletes body strength progressively. Fire and wind elements dominant.",
+      "seasons": ["shishira", "vasanta", "grishma"],
+      "body_strength": "Progressively decreases from moderate to low",
+      "agni_strength": "Progressively decreases",
+      "general_principle": "Favor nourishing, building foods as the period progresses. Avoid excessive exertion."
+    },
+    "dakshinayana": {
+      "english": "Southern Solstice / Nourishing Period",
+      "sanskrit": "दक्षिणायन (विसर्ग काल)",
+      "description": "Sun moves southward. Moon is powerful. Cool and moist. Builds body strength progressively. Water and earth elements dominant.",
+      "seasons": ["varsha", "sharad", "hemanta"],
+      "body_strength": "Progressively increases from low to high",
+      "agni_strength": "Progressively increases",
+      "general_principle": "Body naturally rebuilds. Favor appropriate tastes per season. Strength peaks in Hemanta."
+    }
+  },
+
+  "seasons": {
+    "shishira": {
+      "english": "Late Winter / Dewy Season",
+      "sanskrit": "शिशिर ऋतु",
+      "months_indian": ["Magha", "Phalguna"],
+      "approximate_gregorian": { "start": "January 14", "end": "March 14" },
+      "month_numbers": [1, 2, 3],
+      "dominant_element": "Earth dominant, cold and dry",
+      "dosha_state": {
+        "vata": "Mildly accumulated (from Hemanta)",
+        "pitta": "Normal",
+        "kapha": "Accumulating (Sanchaya)"
+      },
+      "agni_strength": "Strong (cold weather drives Agni inward)",
+      "body_strength": "Good / Moderate",
+      "dietary_recommendations": {
+        "favor_tastes": ["madhura (sweet)", "amla (sour)", "lavana (salty)"],
+        "reduce_tastes": ["katu (pungent excess)", "tikta (bitter excess)", "kashaya (astringent excess)"],
+        "favor_qualities": ["ushna (hot)", "snigdha (oily)", "guru (heavy)"],
+        "recommended_foods": [
+          "Wheat and rice products",
+          "Sesame (til) and sesame oil preparations",
+          "Jaggery-based sweets",
+          "New harvest rice",
+          "Milk and dairy products",
+          "Sugarcane juice",
+          "Warm soups with ghee",
+          "Nuts and dried fruits",
+          "Fermented preparations (in moderation)",
+          "Meat soups (for non-vegetarians)"
+        ],
+        "avoid_foods": [
+          "Cold foods and drinks",
+          "Light and dry foods",
+          "Excessive fasting",
+          "Vata-aggravating foods"
+        ],
+        "beverages": ["Warm water", "Ginger tea", "Warm milk with turmeric", "Sugarcane juice"]
+      },
+      "lifestyle_recommendations": [
+        "Oil massage (Abhyanga) with sesame or mustard oil",
+        "Exercise is well-tolerated in this season",
+        "Keep body warm, wear warm clothes",
+        "Sunbathing (Atapa Sevana) is beneficial",
+        "Steam bath after oil massage"
+      ],
+      "source": "Charaka Samhita, Sutra 6.9-14; Ashtanga Hridayam, Sutra 3.1-6"
+    },
+
+    "vasanta": {
+      "english": "Spring",
+      "sanskrit": "वसन्त ऋतु",
+      "months_indian": ["Chaitra", "Vaishakha"],
+      "approximate_gregorian": { "start": "March 14", "end": "May 14" },
+      "month_numbers": [3, 4, 5],
+      "dominant_element": "Warming earth, melting water",
+      "dosha_state": {
+        "vata": "Normal",
+        "pitta": "Beginning to increase",
+        "kapha": "Aggravated (Prakopa) — accumulated Kapha liquefies"
+      },
+      "agni_strength": "Variable / can be impaired by Kapha",
+      "body_strength": "Moderate",
+      "dietary_recommendations": {
+        "favor_tastes": ["katu (pungent)", "tikta (bitter)", "kashaya (astringent)"],
+        "reduce_tastes": ["madhura (sweet)", "amla (sour)", "lavana (salty)"],
+        "favor_qualities": ["laghu (light)", "ruksha (dry)", "ushna (warm)"],
+        "recommended_foods": [
+          "Barley (Yava) — premier grain for spring",
+          "Old/aged wheat and rice (at least one year old)",
+          "Honey (unheated) — best sweetener for Kapha season",
+          "Moong dal and light lentils",
+          "Bitter vegetables: bitter gourd, neem flowers, drumstick",
+          "Steamed or lightly sautéed vegetables",
+          "Ginger and warming spices",
+          "Light meat soups with pepper (for non-vegetarians)"
+        ],
+        "avoid_foods": [
+          "Heavy, oily, and fried foods",
+          "New grains (freshly harvested)",
+          "Excessive dairy, especially curd/cheese",
+          "Cold and frozen foods/drinks",
+          "Sweets and sugary foods",
+          "Daytime sleep (increases Kapha)"
+        ],
+        "beverages": ["Warm water with honey", "Ginger-lemon water (warm)", "Herbal teas", "Mango juice (toward end of season)"]
+      },
+      "lifestyle_recommendations": [
+        "Vigorous exercise is strongly recommended",
+        "Dry powder massage (Udvartana) to reduce Kapha",
+        "Nasya (nasal oil therapy) to clear sinuses",
+        "Therapeutic vomiting (Vamana) for Kapha-dominant people",
+        "Avoid daytime sleeping",
+        "Gargling with warm water and turmeric"
+      ],
+      "source": "Charaka Samhita, Sutra 6.22-28; Ashtanga Hridayam, Sutra 3.18-26"
+    },
+
+    "grishma": {
+      "english": "Summer",
+      "sanskrit": "ग्रीष्म ऋतु",
+      "months_indian": ["Jyeshtha", "Ashadha"],
+      "approximate_gregorian": { "start": "May 14", "end": "July 14" },
+      "month_numbers": [5, 6, 7],
+      "dominant_element": "Fire dominant, heat and dryness",
+      "dosha_state": {
+        "vata": "Beginning to accumulate (due to dryness)",
+        "pitta": "Accumulating (Sanchaya)",
+        "kapha": "Pacified naturally by heat"
+      },
+      "agni_strength": "Weakest of all seasons (body's energy is depleted by heat)",
+      "body_strength": "Lowest in Uttarayana cycle",
+      "dietary_recommendations": {
+        "favor_tastes": ["madhura (sweet)", "laghu (light forms)", "sheeta (cooling)"],
+        "reduce_tastes": ["katu (pungent)", "amla (sour)", "lavana (salty)"],
+        "favor_qualities": ["sheeta (cold)", "drava (liquid)", "snigdha (oily but light)"],
+        "recommended_foods": [
+          "Rice (especially Shali rice or aged basmati)",
+          "Milk and ghee (cooling and nourishing)",
+          "Sweet fruits: grapes, mango, coconut, pomegranate, watermelon",
+          "Liquid diets: buttermilk, thin soups, rice gruels",
+          "Cucumber, bottle gourd, ash gourd",
+          "Sugar, rock candy (mishri)",
+          "Mung dal with rice (Khichdi)",
+          "Coconut water and tender coconut"
+        ],
+        "avoid_foods": [
+          "Spicy and pungent foods",
+          "Sour and salty foods in excess",
+          "Heavy and hard-to-digest foods",
+          "Alcohol or only in very diluted form",
+          "Excessive exercise and exertion",
+          "Excessive fasting"
+        ],
+        "beverages": ["Cooling herbal waters (cumin, fennel, coriander)", "Coconut water", "Buttermilk (takra)", "Chilled raw mango drink (Panna)", "Rose water", "Khus (vetiver) water"]
+      },
+      "lifestyle_recommendations": [
+        "Stay in cool places, gardens, near water bodies",
+        "Apply cooling sandalwood paste on body",
+        "Wear light, cotton clothing",
+        "Daytime sleep is permitted (only season where it's allowed)",
+        "Moonlight walks in the evening",
+        "Reduce exercise intensity",
+        "Apply cooling oils (coconut, sandalwood)"
+      ],
+      "source": "Charaka Samhita, Sutra 6.29-34; Ashtanga Hridayam, Sutra 3.27-37"
+    },
+
+    "varsha": {
+      "english": "Monsoon / Rainy Season",
+      "sanskrit": "वर्षा ऋतु",
+      "months_indian": ["Shravana", "Bhadrapada"],
+      "approximate_gregorian": { "start": "July 14", "end": "September 14" },
+      "month_numbers": [7, 8, 9],
+      "dominant_element": "Water dominant, humidity, clouds",
+      "dosha_state": {
+        "vata": "Aggravated (Prakopa) — primary concern",
+        "pitta": "Mildly accumulating",
+        "kapha": "Normal but can be triggered by humidity"
+      },
+      "agni_strength": "Very weak (weakest Agni of the year — most critical season for digestion)",
+      "body_strength": "Low (depleted from summer, Vata aggravated by wind and dampness)",
+      "dietary_recommendations": {
+        "favor_tastes": ["amla (sour)", "lavana (salty)", "madhura (sweet)"],
+        "reduce_tastes": ["kashaya (astringent)", "tikta (bitter excess)"],
+        "favor_qualities": ["ushna (warm)", "laghu (light)", "snigdha (mildly oily)"],
+        "recommended_foods": [
+          "Old/aged grains (especially barley, old rice, old wheat)",
+          "Light, warm, freshly cooked food ONLY",
+          "Moong dal — lightest of all dals",
+          "Soups with ginger, pepper, and cumin",
+          "Ghee with meals to support Agni",
+          "Medicated water (boiled with ginger, cumin, or coriander)",
+          "Small quantities of honey",
+          "Thin buttermilk with cumin and rock salt"
+        ],
+        "avoid_foods": [
+          "Stale or leftover food (contamination risk highest)",
+          "Raw salads and uncooked vegetables",
+          "Leafy greens (high contamination and worm risk in monsoon)",
+          "Heavy and hard-to-digest foods",
+          "Excess dairy (especially curd)",
+          "River/pond water without boiling",
+          "Excessive liquids with meals"
+        ],
+        "beverages": ["Boiled and cooled water with ginger", "Thin buttermilk", "Warm soups", "Herbal decoctions"]
+      },
+      "lifestyle_recommendations": [
+        "Use boiled water for all purposes",
+        "Maintain strict food hygiene",
+        "Oil massage followed by warm bath",
+        "Fumigation of living spaces with neem/guggulu",
+        "Avoid daytime sleep",
+        "Avoid excessive exercise",
+        "Medicated Basti (therapeutic enema) for Vata pacification",
+        "Wear dry, clean clothes; avoid dampness"
+      ],
+      "source": "Charaka Samhita, Sutra 6.35-40; Ashtanga Hridayam, Sutra 3.38-48"
+    },
+
+    "sharad": {
+      "english": "Autumn / Post-Monsoon",
+      "sanskrit": "शरद ऋतु",
+      "months_indian": ["Ashwina", "Kartika"],
+      "approximate_gregorian": { "start": "September 14", "end": "November 14" },
+      "month_numbers": [9, 10, 11],
+      "dominant_element": "Transition: heat returns after rains, clear skies",
+      "dosha_state": {
+        "vata": "Calming down",
+        "pitta": "Aggravated (Prakopa) — primary concern (sun's heat returns after rains)",
+        "kapha": "Normal"
+      },
+      "agni_strength": "Recovering, moderate",
+      "body_strength": "Moderate, rebuilding",
+      "dietary_recommendations": {
+        "favor_tastes": ["madhura (sweet)", "tikta (bitter)", "kashaya (astringent)"],
+        "reduce_tastes": ["katu (pungent)", "amla (sour)", "lavana (salty)"],
+        "favor_qualities": ["sheeta (cooling)", "laghu (light)"],
+        "recommended_foods": [
+          "Shali rice (aged rice, naturally cooling)",
+          "Wheat",
+          "Ghee (especially medicated with Tikta herbs)",
+          "Sugar and rock candy (Mishri)",
+          "Sweet and bitter vegetables",
+          "Amla (Indian gooseberry) — best food for this season",
+          "Pomegranate",
+          "Honey (in moderate amounts)",
+          "Moong dal",
+          "Green gram and barley"
+        ],
+        "avoid_foods": [
+          "Oil and fats in excess",
+          "Heavy/fried foods",
+          "Curd/yogurt",
+          "Alkaline foods",
+          "Meat of aquatic animals",
+          "Strong spices"
+        ],
+        "beverages": ["Water exposed to moonlight (Hamsodaka)", "Cooling herbal waters", "Milk with sugar", "Amla juice"]
+      },
+      "lifestyle_recommendations": [
+        "Virechana (therapeutic purgation) strongly recommended for Pitta",
+        "Moonlight exposure is highly beneficial (Sharad moonlight is considered healing)",
+        "Apply sandalwood and camphor on body",
+        "Wear pearls and light gemstones (cooling effect)",
+        "Moderate exercise",
+        "Blood-letting for Pitta-dominant individuals (traditional practice)"
+      ],
+      "source": "Charaka Samhita, Sutra 6.41-48; Ashtanga Hridayam, Sutra 3.49-58"
+    },
+
+    "hemanta": {
+      "english": "Early Winter",
+      "sanskrit": "हेमन्त ऋतु",
+      "months_indian": ["Margashirsha", "Pausha"],
+      "approximate_gregorian": { "start": "November 14", "end": "January 14" },
+      "month_numbers": [11, 12, 1],
+      "dominant_element": "Earth and water dominant, cold",
+      "dosha_state": {
+        "vata": "Can be aggravated by cold (manage with warm foods)",
+        "pitta": "Normal",
+        "kapha": "Accumulating (Sanchaya) — builds up during cold weather"
+      },
+      "agni_strength": "Strongest of all seasons (cold contracts body surface, driving Agni inward and intensifying it)",
+      "body_strength": "Peak strength (highest of the year)",
+      "dietary_recommendations": {
+        "favor_tastes": ["madhura (sweet)", "amla (sour)", "lavana (salty)"],
+        "reduce_tastes": ["katu (pungent excess)", "tikta (bitter excess)", "kashaya (astringent excess)"],
+        "favor_qualities": ["ushna (warm)", "snigdha (oily)", "guru (heavy)"],
+        "recommended_foods": [
+          "Rich, heavy, nourishing foods — Agni is strong enough to digest them",
+          "Milk, ghee, butter, cream",
+          "New rice and wheat",
+          "Sugarcane products (jaggery, sugar)",
+          "Sesame (til) preparations — tilgul, til laddoo",
+          "Urad dal (black gram)",
+          "Meat soups and broths (for non-vegetarians)",
+          "Nuts: almonds, walnuts, cashews",
+          "Warm porridges with ghee",
+          "Dates, figs, raisins",
+          "Sweet potato, root vegetables"
+        ],
+        "avoid_foods": [
+          "Cold foods and cold drinks",
+          "Light, dry foods",
+          "Vata-aggravating diet",
+          "Fasting (strong Agni will consume body tissues if not fed)",
+          "Pungent-dominant foods"
+        ],
+        "beverages": ["Warm milk (with saffron, turmeric, or cardamom)", "Ginger tea", "Warm water", "Warm fruit juices"]
+      },
+      "lifestyle_recommendations": [
+        "Daily oil massage (Abhyanga) with warm sesame oil",
+        "Vigorous exercise is well-tolerated and recommended",
+        "Sunbathing",
+        "Warm baths",
+        "Wear warm, heavy clothing",
+        "Sexual activity is well-tolerated (Shukra Dhatu is strong)",
+        "This is the best season for Rasayana (rejuvenation therapy)"
+      ],
+      "source": "Charaka Samhita, Sutra 6.9-14; Ashtanga Hridayam, Sutra 3.1-6"
+    }
+  },
+
+  "season_mapping": {
+    "_description": "Map common English season names and month numbers to Ayurvedic Ritus. This helps the Query Router translate user input (e.g., 'winter') into the correct Ritucharya.",
+    "english_to_ritu": {
+      "winter": ["hemanta", "shishira"],
+      "early winter": ["hemanta"],
+      "late winter": ["shishira"],
+      "spring": ["vasanta"],
+      "summer": ["grishma"],
+      "monsoon": ["varsha"],
+      "rainy": ["varsha"],
+      "autumn": ["sharad"],
+      "fall": ["sharad"]
+    },
+    "month_to_ritu": {
+      "1":  "shishira",
+      "2":  "shishira",
+      "3":  "vasanta",
+      "4":  "vasanta",
+      "5":  "grishma",
+      "6":  "grishma",
+      "7":  "varsha",
+      "8":  "varsha",
+      "9":  "sharad",
+      "10": "sharad",
+      "11": "hemanta",
+      "12": "hemanta"
+    }
+  }
+}

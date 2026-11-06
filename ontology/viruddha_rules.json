@@ -1,0 +1,388 @@
+{
+  "_meta": {
+    "title": "Viruddha Ahara — Incompatible Food Combinations in Ayurveda",
+    "description": "Comprehensive listing of food incompatibilities (Viruddha Ahara) as described in classical Ayurvedic texts. These are deterministic safety rules that must be checked against every diet plan. Eighteen categories of incompatibility are recognized by Charaka.",
+    "schema_version": "1.0.0",
+    "primary_source": "Charaka Samhita, Sutra Sthana, Chapter 26 (Atreyabhadrakapyiya Adhyaya)",
+    "secondary_sources": [
+      "Ashtanga Hridayam, Sutra Sthana, Chapter 7",
+      "Bhavaprakasha, Purva Khanda, Chapter 6",
+      "Sushruta Samhita, Sutra Sthana, Chapter 20"
+    ],
+    "severity_scale": {
+      "critical": "Can cause serious health issues. MUST be flagged and blocked.",
+      "high": "Significant adverse effects. Should be flagged as a strong warning.",
+      "medium": "Moderate adverse effects over time. Should be flagged as a warning.",
+      "low": "Mild or context-dependent effects. Should be flagged as informational."
+    },
+    "how_to_edit": "Add new rules by appending to the appropriate array. Each rule needs: foods, condition, severity, effects, source. Run 'python -m ontology.verify' after changes."
+  },
+
+  "categories_of_viruddha": {
+    "_description": "Charaka describes 18 types of food incompatibility (Ashtadasha Viruddha). Source: Charaka Samhita Sutra 26.81-101.",
+    "types": [
+      { "id": "desha_viruddha",    "english": "Place incompatibility",      "description": "Eating dry/sharp foods in dry regions, or oily/heavy foods in marshy regions" },
+      { "id": "kala_viruddha",     "english": "Time incompatibility",       "description": "Eating cold/dry foods in winter, or hot/pungent foods in summer" },
+      { "id": "agni_viruddha",     "english": "Digestive fire incompatibility", "description": "Eating heavy food when Agni is weak, or light food when Agni is strong" },
+      { "id": "matra_viruddha",    "english": "Quantity incompatibility",   "description": "Consuming honey and ghee in equal quantities by weight" },
+      { "id": "satmya_viruddha",   "english": "Habituation incompatibility","description": "Suddenly consuming foods one is not habituated to" },
+      { "id": "dosha_viruddha",    "english": "Dosha incompatibility",      "description": "Using foods/activities of similar qualities to one's aggravated dosha" },
+      { "id": "samskara_viruddha", "english": "Processing incompatibility", "description": "Certain foods become toxic when processed a specific way (e.g., heated honey)" },
+      { "id": "virya_viruddha",    "english": "Potency incompatibility",    "description": "Combining foods of opposite potency (e.g., fish + milk: hot + cold)" },
+      { "id": "koshtha_viruddha",  "english": "Bowel incompatibility",      "description": "Giving mild purgatives to hard bowel or strong purgatives to soft bowel" },
+      { "id": "avastha_viruddha",  "english": "State incompatibility",      "description": "Eating Vata-aggravating food after exertion, or Kapha-aggravating food after sleep" },
+      { "id": "krama_viruddha",    "english": "Sequence incompatibility",   "description": "Eating in wrong order — e.g., hot water after honey" },
+      { "id": "parihara_viruddha", "english": "Restriction incompatibility","description": "Consuming cold things after having hot food, or vice versa" },
+      { "id": "upachara_viruddha", "english": "Treatment incompatibility",  "description": "Consuming cold foods after ghee intake" },
+      { "id": "paka_viruddha",     "english": "Cooking incompatibility",    "description": "Food cooked with bad fuel, undercooked, overcooked, or burnt" },
+      { "id": "samyoga_viruddha",  "english": "Combination incompatibility","description": "Mixing specific foods that produce toxicity together" },
+      { "id": "hridaya_viruddha",  "english": "Palatability incompatibility","description": "Food that is unpleasant to taste or consumed unwillingly" },
+      { "id": "sampat_viruddha",   "english": "Quality incompatibility",    "description": "Food that has lost its natural qualities through age or poor storage" },
+      { "id": "vidhi_viruddha",    "english": "Dietary rule incompatibility","description": "Eating in public without proper cleanliness, or in a disturbed state of mind" }
+    ]
+  },
+
+  "specific_food_incompatibilities": [
+    {
+      "id": "honey_ghee_equal",
+      "foods": ["honey", "ghee"],
+      "condition": "equal_quantities_by_weight",
+      "category": "matra_viruddha",
+      "severity": "critical",
+      "effects": ["Produces a unique toxic effect (Gara Visha)", "Slow-acting poison that accumulates"],
+      "note": "Honey and ghee are individually excellent but become toxic in equal proportions. Unequal proportions are acceptable.",
+      "source": "Charaka Samhita, Sutra 26.84; Ashtanga Hridayam, Sutra 7.37",
+      "food_aliases": {
+        "honey": ["madhu", "shahad", "honey"],
+        "ghee": ["ghrita", "ghee", "clarified butter"]
+      }
+    },
+    {
+      "id": "honey_heated",
+      "foods": ["honey"],
+      "condition": "heated_or_cooked",
+      "category": "samskara_viruddha",
+      "severity": "critical",
+      "effects": ["Becomes toxic and indigestible when heated above 40°C", "Creates Ama (metabolic toxins)", "Can damage digestive tract"],
+      "note": "Honey should never be cooked, baked, or added to very hot liquids. Add to warm (not boiling) water or food only after it has cooled sufficiently.",
+      "source": "Charaka Samhita, Sutra 26.84; Ashtanga Hridayam, Sutra 5.53",
+      "food_aliases": {
+        "honey": ["madhu", "shahad", "honey", "raw honey"]
+      }
+    },
+    {
+      "id": "milk_fish",
+      "foods": ["milk", "fish"],
+      "condition": "consumed_together",
+      "category": "virya_viruddha",
+      "severity": "critical",
+      "effects": ["Milk is cooling (Sheeta Virya), fish is heating (Ushna Virya)", "Vitiates blood (Rakta)", "Can cause skin diseases (Kushtha)", "Blocks body channels"],
+      "note": "This is one of the most cited Viruddha combinations. Applies to all types of fish with milk.",
+      "source": "Charaka Samhita, Sutra 26.81; Sushruta Samhita, Sutra 20.16",
+      "food_aliases": {
+        "milk": ["dugdha", "kshira", "doodh", "cow milk", "buffalo milk", "whole milk"],
+        "fish": ["matsya", "machli", "all fish", "seafood"]
+      }
+    },
+    {
+      "id": "milk_sour_fruits",
+      "foods": ["milk", "sour_fruits"],
+      "condition": "consumed_together",
+      "category": "virya_viruddha",
+      "severity": "high",
+      "effects": ["Curdles milk in stomach", "Produces Ama", "Can cause skin disorders", "Disturbs digestion"],
+      "note": "Milk should not be combined with citrus fruits, tamarind, or other sour foods. This includes fruit smoothies with sour fruits and milk.",
+      "source": "Charaka Samhita, Sutra 26.86",
+      "food_aliases": {
+        "milk": ["dugdha", "kshira", "doodh", "milk"],
+        "sour_fruits": ["lemon", "orange", "grapefruit", "pineapple", "tamarind", "imli", "lime", "sour berries", "amla in sour preparations", "tomato"]
+      }
+    },
+    {
+      "id": "milk_banana",
+      "foods": ["milk", "banana"],
+      "condition": "consumed_together",
+      "category": "virya_viruddha",
+      "severity": "medium",
+      "effects": ["Creates heaviness and toxicity (Ama)", "Slows digestion", "Can aggravate Kapha and respiratory conditions", "May cause cough and cold"],
+      "note": "Despite the popularity of banana milkshakes, this combination is considered incompatible. If consumed, add cardamom or nutmeg to mitigate.",
+      "source": "Ashtanga Hridayam, Sutra 7; Bhavaprakasha, Purva Khanda 6",
+      "food_aliases": {
+        "milk": ["dugdha", "milk"],
+        "banana": ["kadali", "kela", "plantain"]
+      }
+    },
+    {
+      "id": "milk_salt",
+      "foods": ["milk", "salt"],
+      "condition": "consumed_together",
+      "category": "virya_viruddha",
+      "severity": "medium",
+      "effects": ["Vitiates blood and skin", "Can cause skin eruptions", "Disturbs Pitta and Kapha"],
+      "note": "Salty foods should not be taken with or immediately after milk.",
+      "source": "Charaka Samhita, Sutra 26.85",
+      "food_aliases": {
+        "milk": ["dugdha", "milk"],
+        "salt": ["lavana", "namak", "rock salt", "sea salt", "salty foods"]
+      }
+    },
+    {
+      "id": "milk_radish",
+      "foods": ["milk", "radish"],
+      "condition": "consumed_together",
+      "category": "samyoga_viruddha",
+      "severity": "medium",
+      "effects": ["Can cause skin diseases", "Disturbs digestion"],
+      "source": "Charaka Samhita, Sutra 26.83",
+      "food_aliases": {
+        "milk": ["dugdha", "milk"],
+        "radish": ["mooli", "moolaka", "daikon"]
+      }
+    },
+    {
+      "id": "milk_melon",
+      "foods": ["milk", "melon"],
+      "condition": "consumed_together",
+      "category": "virya_viruddha",
+      "severity": "medium",
+      "effects": ["Causes fermentation in stomach", "Produces bloating and gas", "Creates Ama"],
+      "note": "Melons should generally be eaten alone, not combined with any other food.",
+      "source": "Bhavaprakasha, Purva Khanda 6",
+      "food_aliases": {
+        "milk": ["dugdha", "milk"],
+        "melon": ["kharbuja", "tarbuj", "watermelon", "muskmelon", "cantaloupe", "honeydew"]
+      }
+    },
+    {
+      "id": "curd_heated",
+      "foods": ["curd"],
+      "condition": "heated_or_cooked",
+      "category": "samskara_viruddha",
+      "severity": "medium",
+      "effects": ["Produces Ama and toxins", "Can cause blood disorders", "Aggravates Pitta and Kapha", "Can cause swelling"],
+      "note": "Curd (yogurt) should not be heated directly. Buttermilk (takra) made from curd is acceptable as a processed form.",
+      "source": "Charaka Samhita, Sutra 26.85",
+      "food_aliases": {
+        "curd": ["dahi", "dadhi", "yogurt", "thick yogurt"]
+      }
+    },
+    {
+      "id": "curd_at_night",
+      "foods": ["curd"],
+      "condition": "consumed_at_night",
+      "category": "kala_viruddha",
+      "severity": "low",
+      "effects": ["Blocks body channels (Srotas)", "Aggravates Kapha which is dominant at night", "Can cause respiratory issues over time"],
+      "note": "If curd is desired at night, it should be mixed with honey, amla, ghee, or sugar to counteract. Buttermilk is a better alternative.",
+      "source": "Ashtanga Hridayam, Sutra 8.36-37; Bhavaprakasha",
+      "food_aliases": {
+        "curd": ["dahi", "dadhi", "yogurt"]
+      }
+    },
+    {
+      "id": "curd_in_hot_season",
+      "foods": ["curd"],
+      "condition": "consumed_in_summer_or_autumn",
+      "category": "kala_viruddha",
+      "severity": "low",
+      "effects": ["Aggravates Pitta due to sour + hot season synergy", "Can cause skin issues and acidity"],
+      "note": "In hot seasons, prefer buttermilk (takra) over curd. If consumed, add sugar and cooling spices.",
+      "source": "Charaka Samhita, Sutra 26; Bhavaprakasha",
+      "food_aliases": {
+        "curd": ["dahi", "dadhi", "yogurt"]
+      }
+    },
+    {
+      "id": "milk_jaggery",
+      "foods": ["milk", "jaggery"],
+      "condition": "consumed_together",
+      "category": "samyoga_viruddha",
+      "severity": "medium",
+      "effects": ["Can cause blood vitiation", "Kapha aggravation", "May cause worm infestations (Krimi)"],
+      "note": "Sugar (refined) with milk is acceptable; jaggery (gur) with milk is not ideal per classical texts.",
+      "source": "Bhavaprakasha, Purva Khanda",
+      "food_aliases": {
+        "milk": ["dugdha", "milk"],
+        "jaggery": ["gur", "guda", "jaggery", "palm jaggery"]
+      }
+    },
+    {
+      "id": "ghee_stored_in_bronze",
+      "foods": ["ghee"],
+      "condition": "stored_in_bronze_vessel_10_days_plus",
+      "category": "paka_viruddha",
+      "severity": "high",
+      "effects": ["Becomes toxic", "Can cause poisoning"],
+      "note": "Store ghee in glass, steel, or earthen vessels.",
+      "source": "Charaka Samhita, Sutra 26.88",
+      "food_aliases": {
+        "ghee": ["ghrita", "ghee", "clarified butter"]
+      }
+    },
+    {
+      "id": "hot_drinks_after_honey",
+      "foods": ["honey", "hot_beverages"],
+      "condition": "hot_drinks_immediately_after_honey",
+      "category": "krama_viruddha",
+      "severity": "high",
+      "effects": ["Creates toxic effects similar to heating honey", "Damages digestive tract"],
+      "note": "Wait at least 30 minutes after consuming honey before having hot drinks.",
+      "source": "Charaka Samhita, Sutra 26",
+      "food_aliases": {
+        "honey": ["madhu", "shahad"],
+        "hot_beverages": ["hot tea", "hot coffee", "boiling water", "hot milk"]
+      }
+    },
+    {
+      "id": "cold_water_after_ghee",
+      "foods": ["ghee", "cold_water"],
+      "condition": "cold_water_immediately_after_ghee",
+      "category": "parihara_viruddha",
+      "severity": "medium",
+      "effects": ["Solidifies ghee in stomach", "Impairs digestion", "Can cause stomach pain"],
+      "note": "Drink warm or room-temperature water after consuming ghee-rich meals.",
+      "source": "Charaka Samhita, Sutra 26",
+      "food_aliases": {
+        "ghee": ["ghrita", "ghee"],
+        "cold_water": ["cold water", "ice water", "chilled beverages"]
+      }
+    },
+    {
+      "id": "equal_fat_and_water",
+      "foods": ["fats", "water"],
+      "condition": "equal_quantities_of_fat_and_water_in_meal",
+      "category": "matra_viruddha",
+      "severity": "medium",
+      "effects": ["Impairs digestion", "Creates Ama"],
+      "note": "Meals should not have equal proportions of fat/oil and watery elements.",
+      "source": "Charaka Samhita, Sutra 26.84",
+      "food_aliases": {}
+    },
+    {
+      "id": "sprouts_with_milk",
+      "foods": ["sprouts", "milk"],
+      "condition": "consumed_together",
+      "category": "samyoga_viruddha",
+      "severity": "medium",
+      "effects": ["Creates bloating and gas", "Impairs digestion", "Contradictory gunas"],
+      "source": "Bhavaprakasha",
+      "food_aliases": {
+        "sprouts": ["ankurit", "sprouted grains", "sprouted moong", "sprouted legumes"],
+        "milk": ["dugdha", "milk"]
+      }
+    },
+    {
+      "id": "chicken_with_curd",
+      "foods": ["chicken", "curd"],
+      "condition": "consumed_together",
+      "category": "samyoga_viruddha",
+      "severity": "medium",
+      "effects": ["Both are heavy and can overload digestion", "Can cause skin disorders", "Excess Ama production"],
+      "source": "Charaka Samhita, Sutra 26; Traditional practice",
+      "food_aliases": {
+        "chicken": ["kukkuta", "murgi", "poultry"],
+        "curd": ["dahi", "dadhi", "yogurt"]
+      }
+    },
+    {
+      "id": "nightshades_with_milk",
+      "foods": ["nightshades", "milk"],
+      "condition": "consumed_together",
+      "category": "samyoga_viruddha",
+      "severity": "low",
+      "effects": ["Can aggravate skin conditions", "Produces Ama"],
+      "note": "Common nightshades include eggplant, potato, tomato, bell pepper.",
+      "source": "Traditional Ayurvedic practice; Bhavaprakasha",
+      "food_aliases": {
+        "nightshades": ["brinjal", "eggplant", "baingan", "tomato", "potato", "bell pepper", "capsicum"],
+        "milk": ["dugdha", "milk"]
+      }
+    },
+    {
+      "id": "multiple_proteins",
+      "foods": ["mixed_animal_proteins"],
+      "condition": "mixing_multiple_animal_proteins_in_one_meal",
+      "category": "samyoga_viruddha",
+      "severity": "medium",
+      "effects": ["Overloads digestive fire", "Creates Ama", "Difficult to digest"],
+      "note": "Do not combine fish + meat, or eggs + meat, or fish + eggs in one meal.",
+      "source": "Charaka Samhita, Sutra 26; Sushruta Samhita, Sutra 20",
+      "food_aliases": {
+        "mixed_animal_proteins": ["fish and meat", "eggs and fish", "eggs and meat", "multiple meats"]
+      }
+    }
+  ],
+
+  "seasonal_food_incompatibilities": [
+    {
+      "id": "cold_food_in_winter",
+      "season": ["hemanta", "shishira"],
+      "season_english": ["early winter", "late winter"],
+      "avoid_qualities": ["sheeta (cold)", "ruksha (dry)", "laghu (light)"],
+      "avoid_examples": ["ice cream", "cold salads", "raw foods", "cold milk", "frozen foods"],
+      "reason": "Vata is aggravated in cold seasons; cold and dry foods worsen imbalance.",
+      "prefer_instead": "Warm, oily, nourishing foods with sweet, sour, and salty tastes.",
+      "source": "Charaka Samhita, Sutra 6 (Tasyashitiya Adhyaya)"
+    },
+    {
+      "id": "hot_spicy_in_summer",
+      "season": ["grishma"],
+      "season_english": ["summer"],
+      "avoid_qualities": ["ushna (hot)", "tikshna (sharp)", "katu (pungent)"],
+      "avoid_examples": ["excess chili", "mustard", "fermented foods", "alcohol", "fried foods", "excess garlic"],
+      "reason": "Pitta is already aggravated in summer; hot and pungent foods further inflame it.",
+      "prefer_instead": "Cooling, sweet, liquid, and slightly oily foods. Coconut water, sweet fruits.",
+      "source": "Charaka Samhita, Sutra 6"
+    },
+    {
+      "id": "heavy_oily_in_monsoon",
+      "season": ["varsha"],
+      "season_english": ["monsoon"],
+      "avoid_qualities": ["guru (heavy)", "snigdha (excess oily)"],
+      "avoid_examples": ["deep fried foods", "excess dairy", "heavy desserts", "stale food"],
+      "reason": "Agni is weakest during monsoon (Vata aggravated). Heavy foods will not digest properly.",
+      "prefer_instead": "Light, warm, freshly cooked foods with ginger and warming spices. Aged grains preferred.",
+      "source": "Charaka Samhita, Sutra 6"
+    },
+    {
+      "id": "sweet_heavy_in_spring",
+      "season": ["vasanta"],
+      "season_english": ["spring"],
+      "avoid_qualities": ["guru (heavy)", "snigdha (oily)", "madhura (excess sweet)"],
+      "avoid_examples": ["excess dairy", "ice cream", "sweets", "fried foods", "cold drinks", "new grains"],
+      "reason": "Kapha accumulated in winter melts and aggravates in spring. Heavy and sweet foods worsen this.",
+      "prefer_instead": "Light, dry, warm, pungent, and bitter foods. Barley, honey, old grains.",
+      "source": "Charaka Samhita, Sutra 6"
+    }
+  ],
+
+  "dosha_specific_incompatibilities": [
+    {
+      "id": "vata_aggravating_foods_for_vata_person",
+      "applicable_when": "User's primary Vikriti is Vata",
+      "avoid_foods": ["raw salads", "beans (most)", "dry crackers", "cold cereals", "frozen desserts", "carbonated drinks", "popcorn", "dried fruits (excess)"],
+      "avoid_tastes": ["katu (excess)", "tikta (excess)", "kashaya (excess)"],
+      "avoid_qualities": ["ruksha (dry)", "laghu (light)", "sheeta (cold)"],
+      "reason": "These foods share Vata's qualities and will further aggravate the imbalance.",
+      "source": "Charaka Samhita, Sutra 1.59-60 (Samanya-Vishesha Siddhanta)"
+    },
+    {
+      "id": "pitta_aggravating_foods_for_pitta_person",
+      "applicable_when": "User's primary Vikriti is Pitta",
+      "avoid_foods": ["chilies", "tomato sauce", "vinegar", "pickles", "fermented foods", "red meat", "alcohol", "fried foods", "mustard", "sour cream"],
+      "avoid_tastes": ["katu (excess)", "amla (excess)", "lavana (excess)"],
+      "avoid_qualities": ["ushna (hot)", "tikshna (sharp)", "drava (liquid/oily excess)"],
+      "reason": "These foods share Pitta's qualities and will further aggravate the imbalance.",
+      "source": "Charaka Samhita, Sutra 1.59-60"
+    },
+    {
+      "id": "kapha_aggravating_foods_for_kapha_person",
+      "applicable_when": "User's primary Vikriti is Kapha",
+      "avoid_foods": ["cheese", "ice cream", "white sugar", "wheat (excess)", "deep-fried foods", "cream", "butter (excess)", "banana", "dates", "sweet yogurt"],
+      "avoid_tastes": ["madhura (excess)", "amla (excess)", "lavana (excess)"],
+      "avoid_qualities": ["guru (heavy)", "snigdha (oily)", "sheeta (cold)", "manda (slow)"],
+      "reason": "These foods share Kapha's qualities and will further aggravate the imbalance.",
+      "source": "Charaka Samhita, Sutra 1.59-60"
+    }
+  ]
+}
